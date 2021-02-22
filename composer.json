@@ -1,5 +1,5 @@
 {
-    "name": "devnet/entity-mysql",
+    "name": "devnet/entity-sqlite",
     "description": "Sqlite provider for Entity ORM",
     "type": "library",
     "license": "MIT",
