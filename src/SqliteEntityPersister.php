@@ -21,7 +21,7 @@ class SqliteEntityPersister implements IEntityPersister
         $this->Connection = $connection;
     }
 
-    public function insert(EntityEntry $entry)
+    public function insert(EntityEntry $entry) : int
     {
         $entityType = $entry->Metadata;
         $placeHolders = [];
@@ -38,10 +38,10 @@ class SqliteEntityPersister implements IEntityPersister
         $placeHolders = implode(', ', $placeHolders);
         $dbCommand = $this->Connection->createCommand("INSERT INTO {$entityType->getTableName()} ($culomns) VALUES ({$placeHolders})");
         $dbCommand->addParameters($values);
-        $dbCommand->execute();
+        return $dbCommand->execute();
     }
 
-    public function update(EntityEntry $entry)
+    public function update(EntityEntry $entry) : int
     {
         $entityType     = $entry->Metadata;
         $key            = $entityType->getPrimaryKey();
@@ -59,10 +59,10 @@ class SqliteEntityPersister implements IEntityPersister
         $dbCommand      = $this->Connection->createCommand("UPDATE {$entityType->getTableName()} SET {$placeHolders} WHERE {$key} = ?");
         
         $dbCommand->addParameters($values);
-        $dbCommand->execute();
+        return $dbCommand->execute();
     }
 
-    public function delete(EntityEntry $entry)
+    public function delete(EntityEntry $entry) : int
     {
         $entityType = $entry->Metadata;
         $key        = $entityType->getPrimaryKey();
@@ -70,6 +70,6 @@ class SqliteEntityPersister implements IEntityPersister
         $dbCommand  = $this->Connection->createCommand("DELETE FROM {$entityType->getTableName()} WHERE {$key} = ?");
         
         $dbCommand->addParameters($values);
-        $dbCommand->execute();
+        return $dbCommand->execute();
     }
 }
